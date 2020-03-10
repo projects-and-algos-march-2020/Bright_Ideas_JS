@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ url_for('static',filename='ideas.css')}}">
+    <title>ideas {{ideas.id}}</title>
+
+</head>
+<body>
+    <div class="container">
+        <header class="row">
+            <div class="nav">
+                <button>
+                    <a href="/ideas">Dashboard</a>
+                </button>
+                <button>
+                    <a href="/logout">Logout</a>
+                </button>
+            </div>
+        </header>
+        <div class="h-divider"></div>
+        <main>
+            <div class="h-divider"></div>
+            <section>
+                <ul>
+                    {% for idea in ideas %}
+                    {% if idea.id == idea_id %}
+                        <li>
+                            <h4>{{idea.author.name}} says:</h4>
+                            <div class="ideas-tile">
+                                <p>{{idea.message}}</p>
+                                <span>{{idea.age()}}</span>
+                                
+                                <div>
+                                    
+                                    {% if session['cur_user'].id == idea.author_id %} 
+                                    <button>
+                                        
+                                        <a href="/ideas/{{idea.id}}/edit">edit</a>
+                                    </button>
+                                    <form action="/ideas/{{idea.id}}/delete" method="POST">
+                                        <input type="submit" value="delete">
+                                    </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="buttons">
+                            <form action="/ideas/{{idea.id}}/like" method="POST">
+                                <input type="submit" value="Like!">
+                            </form>
+                            <form action="/ideas/{{idea.id}}/unlike" method="POST">
+                                    <input type="submit" value="Unlike!">
+                                </form>
+                            </div>
+                        </li>
+                    {% endif %}
+                    {{idea.likers|length}}
+                    {% for liker in idea.likers %}
+                        {{liker.alias}}
+                    {% endfor %}
+
+                    {% endfor %}
+                </ul>
+            </section>
+        </main>
+    </div> 
+</body>
+</html>

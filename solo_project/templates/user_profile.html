@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ url_for('static',filename='ideas.css')}}">
+    <title>Profile</title>
+</head>
+<div class="h-divider"></div>
+        <main>
+            <section>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Follow</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.full_name() }}</td>
+                            <td>{{ user.email }}</td>
+                            <td><a href="/follow/{{ user.id }}">Follow!</a></td>
+                            <td><a href="/unfollow/{{ user.id }}">Unfollow!</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+</body>
+<ul>
+    {% for ideas in ideas %}
+        <li>
+            <h4><a href="/user_profile/{{ideas.author.id}}">{{ideas.author.name}}</a> says:</h4>
+            <div class="ideas-tile">
+                <p>{{session['cur_user'].id}}</p>
+                <div>
+                    {# {% if session['cur_user'].id != ideas.author_id %} #}
+                    {% for post in posts %}
+                    {% if current_user.has_liked_post(post) %}
+                      <a href="{{ url_for('like_action', post_id=post.id, action='unlike') }}">Unlike</a>
+                    {% else %}
+                      <a href="{{ url_for('like_action', post_id=post.id, action='like') }}">Like</a>
+                    {% endif %}
+                    {{ post.likes.count() }} likes
+                    {% endfor %}
+                    {# {% endif %} #}
+                    {% if session['cur_user'].id == ideas.author_id %} 
+                    {% endif %}
+                </div>
+            </div>
+            <a href="/ideas/{{ideas.id}}">Details</a>
+        </li>
+    {% endfor %}
+</ul>
+</section>
+</main>
+</div> 
+</html>

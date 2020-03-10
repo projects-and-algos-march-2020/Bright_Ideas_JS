@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ url_for('static',filename='ideas.css')}}">
+    <title>ideas - Main</title>
+</head>
+<body>
+    <div class="container">
+        <header class="row">
+        
+            <h2>Welcome {{session['cur_user']['first']}} !</h2>
+            <div class="nav">
+                <button>
+                    <a href="/users">Users</a>
+                </button>
+                <button>
+                    <a href="/logout">logout</a>
+                </button>
+               
+            </div>
+        </header>
+        <div class="h-divider"></div>
+        <main>
+            <section>
+                <form action="/ideas" method="POST">
+                    <div>
+                        <label for="ideas"></label>
+                        <input type="text" name="ideas" minlength="5" required>
+                    </div>
+                    {% with messages=get_flashed_messages() %}
+                        {% for message in messages %}
+                            <p>{{message}}</p>
+                        {% endfor %}
+                    {% endwith %}
+                    <input type="submit" value="Add idea!">
+                </form>
+            </section>
+            <div class="h-divider"></div>
+            <section>
+                <ul>
+                    {% for ideas in ideas %}
+                        <li>
+                            <h4><a href="/user_profile/{{ideas.author.id}}">{{ideas.author.name}}</a> says:</h4>
+                            <div class="ideas-tile">
+                                
+                                <p>{{ideas.message}}</p>
+                                <span>{{ideas.age()}}</span>
+                                <p>{{session['cur_user'].id}}</p>
+                                <div>
+                                    {# {% if session['cur_user'].id != ideas.author_id %} #}
+                                    {% for post in posts %}
+                                    {% if current_user.has_liked_post(post) %}
+                                      <a href="{{ url_for('like_action', post_id=post.id, action='unlike') }}">Unlike</a>
+                                    {% else %}
+                                      <a href="{{ url_for('like_action', post_id=post.id, action='like') }}">Like</a>
+                                    {% endif %}
+                                    {{ post.likes.count() }} likes
+                                    {% endfor %}
+                                    {# {% endif %} #}
+                                    {% if session['cur_user'].id == ideas.author_id %} 
+                                    <button>
+                                        <a href="/ideas/{{ideas.id}}/edit">edit</a>
+                                    </button>
+                                    
+                                    <form action="/ideas/{{ideas.id}}/delete" method="POST">
+                                        <input type="submit" value="delete">
+                                    </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <a href="/ideas/{{ideas.id}}">Details</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </main>
+    </div> 
+</body>
+</html>
