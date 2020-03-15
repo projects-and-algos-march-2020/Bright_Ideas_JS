@@ -141,7 +141,8 @@ def register():
         session['cur_user'] = {
             "first": user.name,
             "last": user.alias,
-            "id": user.id
+            "id": user.id,
+            "email": user.email
         }
         return redirect("/ideas")
     else:
@@ -170,9 +171,9 @@ def dashboard_detail(t_id):
         return redirect("/")
     cur_user=User.query.get(session['cur_user']['id'])
     approved_users_ids = [user.id for user in cur_user.following]+[cur_user.id]
-    idea_id = ideas.query.get(t_id).id
+    idea = ideas.query.get(t_id)
     all_ideas=ideas.query.filter(ideas.author_id.in_(approved_users_ids)).all()
-    return render_template("ideas_detail.html", ideas=all_ideas, idea_id=idea_id)
+    return render_template("ideas_detail.html", ideas=all_ideas, idea=idea, idea_id=idea.id)
 
 @app.route("/login", methods=['POST'])
 def login():
@@ -182,7 +183,9 @@ def login():
         session['cur_user'] = {
             "first": user[0].name,
             "last": user[0].alias,
-            "id": user[0].id
+            "id": user[0].id,
+            "email": user[0].email,
+            "all": user[0]
         }
         return redirect("/ideas")
     else:
@@ -302,9 +305,10 @@ def render_user_profile(user_id):
     cur_user=User.query.get(session['cur_user']['id'])
     approved_users_ids = [user.id for user in cur_user.following]+[cur_user.id]
     all_ideas=ideas.query.filter(ideas.author_id.in_(approved_users_ids)).all()
-    return render_template("user_profile.html", ideas=all_ideas)
+    user=User.query.get(user_id)
+    return render_template("user_profile.html", ideas=all_ideas, user=user)
 
     return render_template("ideas.html", ideas=all_ideas) if "cur_user" in session else not_logged_in()
 
 if __name__ == "__main__":
-    app.run(debug=True)-
+    app.run(debug=True)

@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{ url_for('static',filename='ideas.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='project.css')}}">
     <title>ideas - portal</title>
     <style>
         main>section{
             display: inline-block;
-            width: 45%;
-            border: 2px solid black;
+            width: 65%;
+            border: 4px solid black;
             width: 40%;
-            margin: 10px auto;
+            margin: 20px auto;
             border-radius: 4px;
             vertical-align: top;
         }
@@ -34,11 +34,11 @@
                 <h2>Register</h2>
                 <form action="/register" method=POST>
                     <div>
-                        <label for="name">name:</label>
+                        <label for="name">Name:</label>
                         <input type="text" name="name" required>
                     </div>
                     <div>
-                        <label for="alias">alias:</label>
+                        <label for="alias">Alias:</label>
                         <input type="text" name="alias">
                     </div>
                     <div>
@@ -48,6 +48,7 @@
                     <div>
                         <label for="password">Password:</label>
                         <input type="password" name="password" required>
+                        <p>*Password should be at least 8 characters</p>
                     </div>
                     <div>
                         <label for="confirm">Confirm Password:</label>

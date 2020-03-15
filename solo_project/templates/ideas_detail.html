@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{ url_for('static',filename='ideas.css')}}">
-    <title>ideas {{ideas.id}}</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='project.css')}}">
+    <title>bright ideas {{ideas.id}}</title>
 
 </head>
 <body>
@@ -13,7 +13,7 @@
         <header class="row">
             <div class="nav">
                 <button>
-                    <a href="/ideas">Dashboard</a>
+                    <a href="/ideas">Bright Ideas</a>
                 </button>
                 <button>
                     <a href="/logout">Logout</a>
@@ -23,47 +23,20 @@
         <div class="h-divider"></div>
         <main>
             <div class="h-divider"></div>
-            <section>
-                <ul>
-                    {% for idea in ideas %}
-                    {% if idea.id == idea_id %}
-                        <li>
-                            <h4>{{idea.author.name}} says:</h4>
-                            <div class="ideas-tile">
-                                <p>{{idea.message}}</p>
-                                <span>{{idea.age()}}</span>
-                                
-                                <div>
-                                    
-                                    {% if session['cur_user'].id == idea.author_id %} 
-                                    <button>
-                                        
-                                        <a href="/ideas/{{idea.id}}/edit">edit</a>
-                                    </button>
-                                    <form action="/ideas/{{idea.id}}/delete" method="POST">
-                                        <input type="submit" value="delete">
-                                    </form>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="buttons">
-                            <form action="/ideas/{{idea.id}}/like" method="POST">
-                                <input type="submit" value="Like!">
-                            </form>
-                            <form action="/ideas/{{idea.id}}/unlike" method="POST">
-                                    <input type="submit" value="Unlike!">
-                                </form>
-                            </div>
-                        </li>
-                    {% endif %}
-                    {{idea.likers|length}}
-                    {% for liker in idea.likers %}
-                        {{liker.alias}}
-                    {% endfor %}
-
-                    {% endfor %}
-                </ul>
-            </section>
+            <h2>{{idea.author.name}}</h2>
+            <p>{{idea.message}}</p>
+            <h3>Here are the likers </h3>
+            {% for liker in idea.likers %}
+            {{liker.alias}}
+        {% endfor %}
+        <div class="buttons">
+            <form action="/ideas/{{idea.id}}/like" method="POST">
+                <input type="submit" value="Like!">
+            </form>
+            <form action="/ideas/{{idea.id}}/unlike" method="POST">
+                    <input type="submit" value="Unlike!">
+                </form>
+            </div>
         </main>
     </div> 
 </body>

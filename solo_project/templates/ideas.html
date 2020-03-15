@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{ url_for('static',filename='ideas.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='project.css')}}">
     <title>ideas - Main</title>
 </head>
 <body>
     <div class="container">
         <header class="row">
         
-            <h2>Welcome {{session['cur_user']['first']}} !</h2>
+            <h2>Welcome {{session['cur_user']['first']}}!</h2>
             <div class="nav">
                 <button>
                     <a href="/users">Users</a>
@@ -27,7 +27,7 @@
             <section>
                 <form action="/ideas" method="POST">
                     <div>
-                        <label for="ideas"></label>
+                        <label for="ideas" ></label>
                         <input type="text" name="ideas" minlength="5" required>
                     </div>
                     {% with messages=get_flashed_messages() %}
@@ -35,7 +35,7 @@
                             <p>{{message}}</p>
                         {% endfor %}
                     {% endwith %}
-                    <input type="submit" value="Add idea!">
+                    <input type="submit" value="Idea!">
                 </form>
             </section>
             <div class="h-divider"></div>
